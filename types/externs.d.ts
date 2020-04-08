@@ -85,15 +85,13 @@ declare global {
     T extends object ? ImmutableObject<T> :
     T
 
-  // Intermediate immutable interfaces. Prefer e.g. Immutable<Set<T>> over direct use.
-  // TODO: switch to recursive type references when using tsc ≥ 3.7
-  // see https://github.com/microsoft/TypeScript/issues/13923#issuecomment-557509399
-  interface ImmutableArray<T> extends ReadonlyArray<Immutable<T>> {}
-  interface ImmutableSet<T> extends ReadonlySet<Immutable<T>> {}
-  interface ImmutableMap<K, V> extends ReadonlyMap<Immutable<K>, Immutable<V>> {}
+  // Intermediate immutable types. Prefer e.g. Immutable<Set<T>> over direct use.
+  type ImmutableArray<T> = ReadonlyArray<Immutable<T>>;
+  type ImmutableMap<K, V> = ReadonlyMap<Immutable<K>, Immutable<V>>;
+  type ImmutableSet<T> = ReadonlySet<Immutable<T>>;
   type ImmutableObject<T> = {
-    readonly [P in keyof T]: Immutable<T[P]>;
-  }
+    readonly [K in keyof T]: Immutable<T[K]>;
+  };
 
   /**
    * Exclude void from T
